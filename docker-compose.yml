@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  webhook-cronjob:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - WEBHOOK_URL=https://webhook.site/4567aaad-19c9-4140-8cb4-faf2827ec704
+      - CRON_EXPRESSION=*/1 * * * *
+      - NODE_ENV=development
+    restart: unless-stopped
+    container_name: webhook-cronjob
+
+  # Serviço opcional para monitoramento local
+  webhook-monitor:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./monitoring:/usr/share/nginx/html
+    container_name: webhook-monitor
+    profiles:
+      - monitoring
+
+# Network para comunicação entre serviços (se necessário)
+networks:
+  default:
+    name: webhook-cronjob-network

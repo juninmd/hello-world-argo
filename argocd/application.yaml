@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webhook-cronjob
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: webhook-cronjob
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:juninmd/hello-world-argo.git
+    targetRevision: HEAD
+    path: helm
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

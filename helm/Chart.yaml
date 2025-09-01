@@ -1,0 +1,14 @@
+apiVersion: v2
+name: webhook-cronjob
+description: A Helm chart for webhook cronjob application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - cronjob
+  - webhook
+  - bun
+home: https://github.com/your-repo/webhook-cronjob
+maintainers:
+  - name: Your Name
+    email: your.email@example.com
