@@ -85,16 +85,16 @@ echo ""
 # Se ArgoCD estiver instalado, configurar também
 if kubectl get namespace argocd >/dev/null 2>&1; then
     echo -e "${GREEN}5. ArgoCD detectado! Configurando acesso...${NC}"
-    
+
     # Obter servidor ArgoCD
     ARGOCD_SERVER=$(kubectl get service argocd-server -n argocd -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null)
     if [ -z "$ARGOCD_SERVER" ]; then
         ARGOCD_SERVER=$(kubectl get service argocd-server -n argocd -o jsonpath='{.spec.clusterIP}')
     fi
-    
+
     # Obter senha inicial do admin
     ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d 2>/dev/null || echo "admin")
-    
+
     echo -e "${YELLOW}Configure também estes secrets para ArgoCD:${NC}"
     echo -e "${YELLOW}ARGOCD_SERVER:${NC} $ARGOCD_SERVER"
     echo -e "${YELLOW}ARGOCD_USERNAME:${NC} admin"
@@ -102,11 +102,11 @@ if kubectl get namespace argocd >/dev/null 2>&1; then
     echo ""
 else
     echo -e "${YELLOW}5. ArgoCD não detectado. Instalando...${NC}"
-    
+
     # Instalar ArgoCD
     kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-    
+
     echo -e "${GREEN}ArgoCD instalado! Aguarde alguns minutos para que os pods iniciem.${NC}"
     echo -e "${YELLOW}Para acessar o ArgoCD:${NC}"
     echo "kubectl port-forward svc/argocd-server -n argocd 8080:443"
