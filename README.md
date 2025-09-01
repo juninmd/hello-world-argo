@@ -10,6 +10,8 @@ Uma aplicação em Bun que executa como cronjob no Kubernetes, fazendo chamadas 
 - ✅ Dockerfile otimizado para produção
 - ✅ Charts Helm para deploy
 - ✅ Configuração para ArgoCD
+- ✅ **CI/CD automatizado** via GitHub Actions
+- ✅ **Deploy automático** em push para main/master
 - ✅ Logging estruturado
 - ✅ Configurações via variáveis de ambiente
 - ✅ Healthcheck
@@ -65,6 +67,26 @@ bun start
 | `WEBHOOK_URL` | URL do webhook para fazer as chamadas | `https://webhook.site/4567aaad-19c9-4140-8cb4-faf2827ec704` |
 | `CRON_EXPRESSION` | Expressão cron para agendamento | `*/5 * * * *` (a cada 5 minutos) |
 | `NODE_ENV` | Ambiente de execução | `development` |
+
+## 🚀 CI/CD Automatizado
+
+O projeto está configurado para **deploy automático** sempre que você fizer push para `main` ou `master`.
+
+### Setup rápido:
+
+1. **Na sua VM (Magalu Cloud):**
+   ```bash
+   git clone git@github.com:juninmd/hello-world-argo.git
+   cd hello-world-argo
+   chmod +x scripts/setup-vm.sh
+   ./scripts/setup-vm.sh
+   ```
+
+2. **No GitHub, configure os secrets** mostrados pelo script
+
+3. **Faça um push** e o deploy será automático! 🎉
+
+📖 **Guia completo:** [CICD-SETUP.md](CICD-SETUP.md)
 
 ## Testes
 
