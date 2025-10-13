@@ -4,18 +4,21 @@ image:
   pullPolicy: IfNotPresent
   tag: "master-68c9c80"
 
-service:
-  type: ClusterIP
-  port: 80
-  targetPort: 3000
-
-resources:
-  limits:
-    cpu: 100m
-    memory: 128Mi
-  requests:
-    cpu: 50m
-    memory: 64Mi
+# Cronjob configuration
+cronjob:
+  # Cron expression - every 5 minutes by default
+  schedule: "*/5 * * * *"
+  # Webhook URL
+  webhookUrl: "https://webhook.site/43cbe200-bddc-450a-bece-bb0905ad3ca4"
+  # Timezone
+  timezone: "America/Sao_Paulo"
+  # Job history limits
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  # Restart policy
+  restartPolicy: OnFailure
+  # Backoff limit for failed jobs
+  backoffLimit: 3
 
 serviceAccount:
   create: true
@@ -34,3 +37,11 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1001
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
