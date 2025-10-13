@@ -2,7 +2,7 @@
 image:
   repository: ghcr.io/juninmd/hello-world-argo
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "master-68c9c80"
 
 service:
   type: ClusterIP
