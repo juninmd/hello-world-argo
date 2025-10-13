@@ -2,7 +2,7 @@
 image:
   repository: ghcr.io/juninmd/hello-world-argo
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "master-e789d26"
 
 # Cronjob configuration
 cronjob:
