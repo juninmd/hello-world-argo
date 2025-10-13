@@ -8,6 +8,10 @@ interface WebhookPayload {
   status: string;
 }
 
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'OK' });
+});
+
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'OK' });
 });
