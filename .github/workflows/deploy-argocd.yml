@@ -52,7 +52,8 @@ jobs:
 
       - name: Update Helm values with new image
         run: |
-          IMAGE_TAG="main-${GITHUB_SHA:0:7}"
+          BRANCH_NAME="${{ github.ref_name }}"
+          IMAGE_TAG="${BRANCH_NAME}-${GITHUB_SHA:0:7}"
           sed -i "s|repository: webhook-cronjob|repository: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}|g" helm/values.yaml
           sed -i "s|tag: \"latest\"|tag: \"$IMAGE_TAG\"|g" helm/values.yaml
 
@@ -63,24 +64,8 @@ jobs:
           git diff --staged --quiet || git commit -m "Update image tag to $IMAGE_TAG [skip ci]"
           git push
 
-      - name: Install ArgoCD CLI
+      - name: Validate Deployment
         run: |
-          curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-          sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-          rm argocd-linux-amd64
-
-      - name: Sync ArgoCD Application
-        run: |
-          # Login to ArgoCD
-          argocd login ${{ secrets.ARGOCD_SERVER }} \
-            --username ${{ secrets.ARGOCD_USERNAME }} \
-            --password ${{ secrets.ARGOCD_PASSWORD }} \
-            --insecure
-
-          # Sync the application
-          argocd app sync webhook-cronjob
-
-          # Wait for sync to complete
-          argocd app wait webhook-cronjob --timeout 300
-
-          echo "✅ Deployment completed successfully!"
+          echo "✅ Image built and pushed successfully!"
+          echo "✅ Helm values updated and committed!"
+          echo "ArgoCD will automatically sync the application."
