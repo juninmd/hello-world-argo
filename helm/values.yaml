@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/juninmd/hello-world-argo
   pullPolicy: IfNotPresent
-  tag: "master-e789d26"
+  tag: "latest"
 
 service:
   type: ClusterIP
