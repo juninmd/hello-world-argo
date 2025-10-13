@@ -11,7 +11,7 @@ class WebhookCronJob {
   private readonly cronExpression: string;
 
   constructor() {
-    this.webhookUrl = process.env.WEBHOOK_URL || 'https://webhook.site/4567aaad-19c9-4140-8cb4-faf2827ec704';
+    this.webhookUrl = process.env.WEBHOOK_URL!;
     this.payload = { status: 'deu certo' };
     // Por padrão executa a cada 5 minutos, mas pode ser configurado via env var
     this.cronExpression = process.env.CRON_EXPRESSION || '*/5 * * * *';
