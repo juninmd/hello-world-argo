@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/juninmd/hello-world-argo
   pullPolicy: IfNotPresent
-  tag: "master-23820e5"
+  tag: "latest"
 
 service:
   type: ClusterIP
@@ -13,7 +13,7 @@ service:
 ingress:
   enabled: true
   className: traefik
-  host: hello-world-argo.example.com
+  host: hello-world.antonio-code.duckdns.org
   certManagerIssuer: letsencrypt-http01
   entrypoints: web,websecure
   tls: "true"
