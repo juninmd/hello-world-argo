@@ -1,8 +1,8 @@
 # Default values for webhook-cronjob
 image:
-  repository: webhook-cronjob
+  repository: ghcr.io/juninmd/hello-world-argo
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "main-7ff2bee"
 
 # Cronjob configuration
 cronjob:
