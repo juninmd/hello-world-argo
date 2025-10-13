@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: webhook-cronjob
+  name: hello-world
   namespace: argocd
   labels:
-    app.kubernetes.io/name: webhook-cronjob
+    app.kubernetes.io/name: hello-world
 spec:
   project: default
   source:
