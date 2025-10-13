@@ -1,14 +1,13 @@
 apiVersion: v2
-name: webhook-cronjob
-description: A Helm chart for webhook cronjob application
+name: hello-world-argo
+description: A Helm chart for Hello World ArgoCD app
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
 keywords:
-  - cronjob
-  - webhook
-  - bun
-home: https://github.com/your-repo/webhook-cronjob
+  - hello-world
+  - argocd
+home: https://github.com/juninmd/hello-world-argo
 maintainers:
-  - name: Your Name
-    email: your.email@example.com
+  - name: Junin MD
+    email: juninmd@example.com

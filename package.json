@@ -1,7 +1,7 @@
 {
-  "name": "webhook-cronjob",
+  "name": "hello-world-argo",
   "version": "1.0.0",
-  "description": "Cronjob application that sends POST requests to a webhook",
+  "description": "Cronjob application for ArgoCD demo",
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -13,14 +13,12 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "axios": "^1.6.0",
-    "node-cron": "^3.0.3"
+    "axios": "^1.6.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "@types/node-cron": "^3.0.11",
-    "typescript": "^5.0.0",
-    "tsx": "^4.0.0"
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

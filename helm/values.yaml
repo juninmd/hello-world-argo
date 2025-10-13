@@ -1,29 +1,24 @@
-# Default values for webhook-cronjob
+# Default values for hello-world-argo
 image:
   repository: ghcr.io/juninmd/hello-world-argo
   pullPolicy: IfNotPresent
-  tag: "main-7ff2bee"
+  tag: "latest"
 
-# Cronjob configuration
-cronjob:
-  # Cron expression - every 5 minutes by default
-  schedule: "*/5 * * * *"
-  # Webhook URL
-  webhookUrl: "https://webhook.site/4567aaad-19c9-4140-8cb4-faf2827ec704"
-  # Timezone
-  timezone: "America/Sao_Paulo"
-  # Job history limits
-  successfulJobsHistoryLimit: 3
-  failedJobsHistoryLimit: 1
-  # Restart policy
-  restartPolicy: OnFailure
-  # Backoff limit for failed jobs
-  backoffLimit: 3
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # The name of the service account to use.
   name: ""
 
 podSecurityContext:
@@ -39,11 +34,3 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1001
-
-resources:
-  limits:
-    cpu: 100m
-    memory: 128Mi
-  requests:
-    cpu: 50m
-    memory: 64Mi
