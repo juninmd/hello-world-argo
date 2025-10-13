@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: { { include "hello-world-argo.fullname" . } }
+  labels:
+    app.kubernetes.io/name: { { include "hello-world-argo.name" . } }
+    app.kubernetes.io/instance: { { .Release.Name } }
+    app.kubernetes.io/component: app
+spec:
+  replicas: { { .Values.replicaCount } }
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: { { include "hello-world-argo.name" . } }
+      app.kubernetes.io/instance: { { .Release.Name } }
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: { { include "hello-world-argo.name" . } }
+        app.kubernetes.io/instance: { { .Release.Name } }
+    spec:
+      serviceAccountName:
+        { { include "hello-world-argo.serviceAccountName" . } }
+      securityContext:
+        fsGroup: { { .Values.podSecurityContext.fsGroup } }
+        runAsNonRoot: { { .Values.podSecurityContext.runAsNonRoot } }
+        runAsUser: { { .Values.podSecurityContext.runAsUser } }
+      containers:
+        - name: { { .Chart.Name } }
+          securityContext:
+            allowPrivilegeEscalation:
+              { { .Values.securityContext.allowPrivilegeEscalation } }
+            readOnlyRootFilesystem:
+              { { .Values.securityContext.readOnlyRootFilesystem } }
+            runAsNonRoot: { { .Values.securityContext.runAsNonRoot } }
+            runAsUser: { { .Values.securityContext.runAsUser } }
+            capabilities:
+              drop:
+                - ALL
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: { { .Values.image.pullPolicy } }
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: "production"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            limits:
+              cpu: { { .Values.resources.limits.cpu } }
+              memory: { { .Values.resources.limits.memory } }
+            requests:
+              cpu: { { .Values.resources.requests.cpu } }
+              memory: { { .Values.resources.requests.memory } }

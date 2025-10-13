@@ -1,8 +1,16 @@
+import express, { Request, Response } from 'express';
 import axios from 'axios';
+
+const app = express();
+const port = process.env.PORT || 3000;
 
 interface WebhookPayload {
   status: string;
 }
+
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'OK' });
+});
 
 async function sendWebhook() {
   const webhookUrl = process.env.WEBHOOK_URL!;
@@ -23,5 +31,11 @@ async function sendWebhook() {
   }
 }
 
-// Executa a função
-sendWebhook();
+// If run as cronjob, send webhook; else start server
+if (process.env.RUN_AS_CRONJOB === 'true') {
+  sendWebhook();
+} else {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
